@@ -1,29 +1,19 @@
 public class Trap {
 
     public int trap(int[] height) {
-        int sum = 0;
-        int max_left = 0;
-        int max_right = 0;
-        int left = 1;
-        int right = height.length - 2;
-        for (int i = 1; i < height.length - 1; i++) {
-            if (height[left - 1] < height[right + 1]) {
-                max_left = Math.max(max_left, height[left - 1]);
-                int min = max_left;
-                if (min > height[left]) {
-                    sum = sum + (min - height[left]);
-                }
-                left++;
+        int leftMaxHeight = 0, rightMaxHeight = 0;
+        int left = 0, right = height.length - 1;
+        int result = 0;
+        while (left <= right) {
+            if (leftMaxHeight < rightMaxHeight) {
+                result += Math.max(0, leftMaxHeight - height[left]);
+                leftMaxHeight = Math.max(leftMaxHeight, height[left++]);
             } else {
-                max_right = Math.max(max_right, height[right + 1]);
-                int min = max_right;
-                if (min > height[right]) {
-                    sum = sum + (min - height[right]);
-                }
-                right--;
+                result += Math.max(0, rightMaxHeight - height[right]);
+                rightMaxHeight = Math.max(rightMaxHeight, height[right--]);
             }
         }
-        return sum;
+        return result;
     }
 
 }
